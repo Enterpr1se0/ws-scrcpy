@@ -225,7 +225,7 @@ export abstract class StreamClient<T extends ParamsStream> extends BaseClient<T,
         const applMoreBox = this.createMoreBox(udid, player);
         applMoreBox.setOnStop(this);
         const moreBox: HTMLElement = applMoreBox.getHolderElement();
-        const applToolBox = ApplToolBox.createToolBox(udid, player, this, this.wdaProxy, moreBox);
+        const applToolBox = ApplToolBox.createToolBox(udid, player, this, this.wdaProxy, moreBox, this.videoWrapper);
         const controlButtons = applToolBox.getHolderElement();
         deviceView.appendChild(controlButtons);
         deviceView.appendChild(this.videoWrapper);

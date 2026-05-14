@@ -1,6 +1,7 @@
 import { ToolBox } from '../../toolbox/ToolBox';
 import KeyEvent from '../android/KeyEvent';
 import SvgImage from '../../ui/SvgImage';
+import Fullscreen from '../../ui/Fullscreen';
 import { KeyCodeControlMessage } from '../../controlMessage/KeyCodeControlMessage';
 import { ToolBoxButton } from '../../toolbox/ToolBoxButton';
 import { ToolBoxElement } from '../../toolbox/ToolBoxElement';
@@ -51,6 +52,7 @@ export class GoogToolBox extends ToolBox {
         player: BasePlayer,
         client: StreamClientScrcpy,
         moreBox?: HTMLElement,
+        fullscreenTarget?: HTMLElement,
     ): GoogToolBox {
         const playerName = player.getName();
         const list = BUTTONS.slice();
@@ -80,6 +82,14 @@ export class GoogToolBox extends ToolBox {
                 player.createScreenshot(client.getDeviceName());
             });
             elements.push(screenshot);
+        }
+
+        if (fullscreenTarget && Fullscreen.isSupported(fullscreenTarget)) {
+            const fullscreen = new ToolBoxButton('Toggle fullscreen', SvgImage.Icon.FULLSCREEN);
+            fullscreen.addEventListener('click', () => {
+                Fullscreen.toggle(fullscreenTarget);
+            });
+            elements.push(fullscreen);
         }
 
         const keyboard = new ToolBoxCheckbox(

@@ -312,14 +312,14 @@ export class StreamClientScrcpy
             }
         };
 
+        const video = document.createElement('div');
+        video.className = 'video';
         const googMoreBox = (this.moreBox = new GoogMoreBox(udid, player, this));
         const moreBox = googMoreBox.getHolderElement();
         googMoreBox.setOnStop(stop);
-        const googToolBox = GoogToolBox.createToolBox(udid, player, this, moreBox);
+        const googToolBox = GoogToolBox.createToolBox(udid, player, this, moreBox, video);
         this.controlButtons = googToolBox.getHolderElement();
         deviceView.appendChild(this.controlButtons);
-        const video = document.createElement('div');
-        video.className = 'video';
         deviceView.appendChild(video);
         deviceView.appendChild(moreBox);
         player.setParent(video);

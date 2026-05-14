@@ -1,5 +1,6 @@
 import { ToolBox } from '../../toolbox/ToolBox';
 import SvgImage from '../../ui/SvgImage';
+import Fullscreen from '../../ui/Fullscreen';
 import { BasePlayer } from '../../player/BasePlayer';
 import { ToolBoxButton } from '../../toolbox/ToolBoxButton';
 import { ToolBoxElement } from '../../toolbox/ToolBoxElement';
@@ -29,6 +30,7 @@ export class ApplToolBox extends ToolBox {
         client: StreamClient,
         wdaConnection: WdaProxyClient,
         moreBox?: HTMLElement,
+        fullscreenTarget?: HTMLElement,
     ): ApplToolBox {
         const playerName = player.getName();
         const list = BUTTONS.slice();
@@ -55,6 +57,14 @@ export class ApplToolBox extends ToolBox {
                 player.createScreenshot(client.getDeviceName());
             });
             elements.push(screenshot);
+        }
+
+        if (fullscreenTarget && Fullscreen.isSupported(fullscreenTarget)) {
+            const fullscreen = new ToolBoxButton('Toggle fullscreen', SvgImage.Icon.FULLSCREEN);
+            fullscreen.addEventListener('click', () => {
+                Fullscreen.toggle(fullscreenTarget);
+            });
+            elements.push(fullscreen);
         }
 
         if (moreBox) {

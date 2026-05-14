@@ -15,6 +15,7 @@ import MenuSVG from '../../public/images/buttons/menu.svg';
 import ArrowBackSVG from '../../public/images/buttons/arrow_back.svg';
 import ToggleOnSVG from '../../public/images/buttons/toggle_on.svg';
 import ToggleOffSVG from '../../public/images/buttons/toggle_off.svg';
+import FullscreenSVG from '../../public/images/skin-light/ic_fullscreen_678_48dp.svg';
 
 export enum Icon {
     BACK,
@@ -34,6 +35,7 @@ export enum Icon {
     ARROW_BACK,
     TOGGLE_ON,
     TOGGLE_OFF,
+    FULLSCREEN,
 }
 
 export default class SvgImage {
@@ -74,6 +76,8 @@ export default class SvgImage {
                 return ToggleOnSVG;
             case Icon.TOGGLE_OFF:
                 return ToggleOffSVG;
+            case Icon.FULLSCREEN:
+                return FullscreenSVG;
             default:
                 return '';
         }
