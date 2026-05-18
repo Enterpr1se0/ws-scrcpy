@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm view *)",
+      "Bash(npm run *)",
+      "Bash(git -C /d/Desktop/ws-scrcpy status --short)",
+      "Bash(git -C /d/Desktop/ws-scrcpy diff --stat)",
+      "Bash(git -C /d/Desktop/ws-scrcpy diff -- .eslintrc .prettierrc package.json src/app/client/StreamReceiver.ts src/app/googDevice/client/FileListingClient.ts src/app/player/WebCodecsPlayer.ts src/app/ui/Fullscreen.ts src/packages/multiplexer/Event.ts src/packages/multiplexer/Message.ts src/packages/multiplexer/Multiplexer.ts src/server/Utils.ts src/server/goog-device/filePush/ReadStream.ts src/server/goog-device/mw/RemoteShell.ts src/server/mw/Mw.ts src/server/services/ProcessRunner.ts)",
+      "Bash(./node_modules/.bin/tsc --noEmit --pretty false)",
+      "Bash(./node_modules/.bin/tsc --noEmit --pretty false --skipLibCheck)"
+    ]
+  }
+}

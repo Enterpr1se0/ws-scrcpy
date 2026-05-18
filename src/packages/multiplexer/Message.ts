@@ -2,7 +2,15 @@ import { MessageType } from './MessageType';
 import Util from '../../app/Util';
 import { CloseEventClass } from './CloseEventClass';
 
+type BinaryPayload = ArrayBufferLike | ArrayBufferView;
+
 export class Message {
+    private static toArrayBuffer(data: Uint8Array): ArrayBuffer {
+        const array = new Uint8Array(data.byteLength);
+        array.set(data);
+        return array.buffer;
+    }
+
     public static parse(buffer: ArrayBuffer): Message {
         const view = Buffer.from(buffer);
 
@@ -21,15 +29,20 @@ export class Message {
             buffer.writeUInt32LE(reasonBuffer.byteLength, 2);
             buffer.set(reasonBuffer, 6);
         }
-        return new Message(MessageType.CloseChannel, id, buffer);
+        return new Message(MessageType.CloseChannel, id, Message.toArrayBuffer(buffer));
     }
 
-    public static createBuffer(type: MessageType, channelId: number, data?: ArrayBuffer): Buffer {
-        const result = Buffer.alloc(5 + (data ? data.byteLength : 0));
+    public static createBuffer(type: MessageType, channelId: number, data?: BinaryPayload): Buffer {
+        const input = data
+            ? ArrayBuffer.isView(data)
+                ? Buffer.from(data.buffer, data.byteOffset, data.byteLength)
+                : Buffer.from(data)
+            : undefined;
+        const result = Buffer.alloc(5 + (input ? input.byteLength : 0));
         result.writeUInt8(type, 0);
         result.writeUInt32LE(channelId, 1);
-        if (data?.byteLength) {
-            result.set(Buffer.from(data), 5);
+        if (input?.byteLength) {
+            result.set(input, 5);
         }
         return result;
     }
@@ -58,7 +71,7 @@ export class Message {
         });
     }
 
-    public toBuffer(): ArrayBuffer {
+    public toBuffer(): Buffer {
         return Message.createBuffer(this.type, this.channelId, this.data);
     }
 }

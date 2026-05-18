@@ -15,6 +15,8 @@ interface MultiplexerEvents extends WebSocketEventMap {
     message: MessageEvent;
 }
 
+type BinaryPayload = ArrayBufferLike | ArrayBufferView;
+
 export interface WebsocketEventEmitter {
     dispatchEvent(event: Event): boolean;
     addEventListener<K extends keyof WebSocketEventMap>(
@@ -30,6 +32,13 @@ export interface WebsocketEventEmitter {
 }
 
 export class Multiplexer extends TypedEmitter<MultiplexerEvents> implements WebSocket {
+    private static toBinaryPayload(data: ArrayBufferLike | Blob | ArrayBufferView): BinaryPayload {
+        if (data instanceof Blob) {
+            throw Error('Blob data is not supported');
+        }
+        return data;
+    }
+
     readonly CONNECTING = 0;
     readonly OPEN = 1;
     readonly CLOSING = 2;
@@ -256,7 +265,7 @@ export class Multiplexer extends TypedEmitter<MultiplexerEvents> implements WebS
             if (typeof data === 'string') {
                 data = Message.createBuffer(MessageType.RawStringData, this._id, Buffer.from(data));
             } else {
-                data = Message.createBuffer(MessageType.RawBinaryData, this._id, Buffer.from(data));
+                data = Message.createBuffer(MessageType.RawBinaryData, this._id, Multiplexer.toBinaryPayload(data));
             }
         }
         this._send(data);
@@ -264,7 +273,8 @@ export class Multiplexer extends TypedEmitter<MultiplexerEvents> implements WebS
 
     public sendData(data: string | ArrayBufferLike | Blob | ArrayBufferView): void {
         if (this.ws instanceof Multiplexer) {
-            data = Message.createBuffer(MessageType.Data, this._id, Buffer.from(data));
+            const payload = typeof data === 'string' ? Buffer.from(data) : Multiplexer.toBinaryPayload(data);
+            data = Message.createBuffer(MessageType.Data, this._id, payload);
         }
         this._send(data);
     }

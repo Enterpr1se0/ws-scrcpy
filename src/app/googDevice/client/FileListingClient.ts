@@ -31,7 +31,7 @@ type Download = {
     entry?: Entry;
     progressEl?: HTMLElement;
     anchor?: HTMLElement;
-    chunks: Uint8Array[];
+    chunks: ArrayBuffer[];
     path: string;
     pathToLoadAfter: string;
 };
@@ -434,7 +434,10 @@ export class FileListingClient extends ManagerClient<ParamsFileListing, never> i
                 if (!download) {
                     return;
                 }
-                download.chunks.push(data.slice(4));
+                const chunk = data.slice(4);
+                const copy = new Uint8Array(chunk.byteLength);
+                copy.set(chunk);
+                download.chunks.push(copy.buffer);
                 download.receivedBytes += data.length - 4;
                 if (download.anchor) {
                     let progressElement = download.progressEl;

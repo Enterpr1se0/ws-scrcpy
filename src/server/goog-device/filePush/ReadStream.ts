@@ -1,6 +1,7 @@
 import { Readable, ReadableOptions } from 'stream';
 
 export class ReadStream extends Readable {
+    public readonly pending = false;
     private _bytesRead = 0;
     constructor(private readonly _path: string, opts?: ReadableOptions) {
         super(opts);
@@ -11,7 +12,7 @@ export class ReadStream extends Readable {
     public get path(): string | Buffer {
         return this._path;
     }
-    public push(chunk: any, encoding?: string): boolean {
+    public push(chunk: any, encoding?: BufferEncoding): boolean {
         if (chunk) {
             this._bytesRead += chunk.length;
         }

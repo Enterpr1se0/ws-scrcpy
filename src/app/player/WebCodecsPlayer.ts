@@ -97,15 +97,13 @@ export class WebCodecsPlayer extends BaseCanvasBasedPlayer {
         });
     }
 
-    protected addToBuffer(data: Uint8Array): Uint8Array {
-        let array: Uint8Array;
+    protected addToBuffer(data: Uint8Array): Uint8Array<ArrayBuffer> {
+        const offset = this.buffer?.byteLength || 0;
+        const array = new Uint8Array(offset + data.byteLength);
         if (this.buffer) {
-            array = new Uint8Array(this.buffer.byteLength + data.byteLength);
             array.set(new Uint8Array(this.buffer));
-            array.set(new Uint8Array(data), this.buffer.byteLength);
-        } else {
-            array = data;
         }
+        array.set(data, offset);
         this.buffer = array.buffer;
         return array;
     }
@@ -171,7 +169,7 @@ export class WebCodecsPlayer extends BaseCanvasBasedPlayer {
                 new EncodedVideoChunk({
                     type: 'key',
                     timestamp: 0,
-                    data: array.buffer,
+                    data: array,
                 }),
             );
             return;

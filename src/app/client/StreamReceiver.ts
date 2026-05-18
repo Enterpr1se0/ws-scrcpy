@@ -55,7 +55,7 @@ export class StreamReceiver<P extends ParamsStream> extends ManagerClient<Params
 
     private handleInitialInfo(data: ArrayBuffer): void {
         let offset = MAGIC_BYTES_INITIAL.length;
-        let nameBytes = new Uint8Array(data, offset, DEVICE_NAME_FIELD_LENGTH);
+        let nameBytes: Uint8Array<ArrayBufferLike> = new Uint8Array(data, offset, DEVICE_NAME_FIELD_LENGTH);
         offset += DEVICE_NAME_FIELD_LENGTH;
         let rest: Buffer = Buffer.from(new Uint8Array(data, offset));
         const displaysCount = rest.readInt32BE(0);
@@ -145,7 +145,7 @@ export class StreamReceiver<P extends ParamsStream> extends ManagerClient<Params
                 }
             }
 
-            this.emit('video', new Uint8Array(event.data));
+            this.emit('video', event.data);
         }
     }
 

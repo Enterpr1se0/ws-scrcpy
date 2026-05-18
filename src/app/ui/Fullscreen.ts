@@ -13,7 +13,8 @@ export default class Fullscreen {
         if (!Fullscreen.isSupported(element)) {
             return;
         }
-        const promise = document.fullscreenElement === element ? document.exitFullscreen() : element.requestFullscreen();
+        const promise =
+            document.fullscreenElement === element ? document.exitFullscreen() : element.requestFullscreen();
         promise.catch((error: any) => {
             console.error(TAG, error);
         });

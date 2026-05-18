@@ -1,8 +1,8 @@
 export class Event2 {
-    static NONE = 0;
-    static CAPTURING_PHASE = 1;
-    static AT_TARGET = 2;
-    static BUBBLING_PHASE = 3;
+    static NONE = 0 as const;
+    static CAPTURING_PHASE = 1 as const;
+    static AT_TARGET = 2 as const;
+    static BUBBLING_PHASE = 3 as const;
 
     public cancelable: boolean;
     public bubbles: boolean;
@@ -12,10 +12,10 @@ export class Event2 {
     public timeStamp: number;
     public target: any;
     public readonly isTrusted: boolean = true;
-    readonly AT_TARGET: number = 0;
-    readonly BUBBLING_PHASE: number = 0;
-    readonly CAPTURING_PHASE: number = 0;
-    readonly NONE: number = 0;
+    readonly AT_TARGET: 2 = Event2.AT_TARGET;
+    readonly BUBBLING_PHASE: 3 = Event2.BUBBLING_PHASE;
+    readonly CAPTURING_PHASE: 1 = Event2.CAPTURING_PHASE;
+    readonly NONE: 0 = Event2.NONE;
 
     constructor(type: string, options = { cancelable: true, bubbles: true, composed: false }) {
         const { cancelable, bubbles, composed } = { ...options };

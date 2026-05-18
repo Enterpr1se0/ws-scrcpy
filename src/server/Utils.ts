@@ -20,6 +20,9 @@ export class Utils {
         Object.keys(os.networkInterfaces())
             .map((key) => os.networkInterfaces()[key])
             .forEach((info) => {
+                if (!info) {
+                    return;
+                }
                 info.forEach((iface) => {
                     let scopeid: number | undefined;
                     if (iface.family === 'IPv6') {
