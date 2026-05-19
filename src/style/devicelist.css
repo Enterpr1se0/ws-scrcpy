@@ -32,12 +32,13 @@ body.list {
 }
 
 body.stream #devices {
-    background: radial-gradient(circle at top left, rgb(var(--console-accent) / 0.1), transparent 24%),
-        rgb(var(--console-panel) / 0.92);
-    border-right: 1px solid rgb(var(--console-border) / 0.7);
-    box-shadow: 18px 0 60px rgb(0 0 0 / 0.24);
-    backdrop-filter: blur(0.25rem);
-    opacity: .96;
+    background: radial-gradient(circle at top left, rgb(var(--console-accent) / 0.12), transparent 24%),
+        linear-gradient(180deg, rgb(var(--console-panel) / 0.96), rgb(var(--console-muted) / 0.88));
+    border-right: 1px solid rgb(var(--console-border) / 0.72);
+    color: rgb(var(--console-text));
+    box-shadow: 18px 0 64px rgb(0 0 0 / 0.3), inset -1px 0 0 rgb(255 255 255 / 0.04);
+    backdrop-filter: blur(0.3rem);
+    opacity: .97;
     position: absolute;
     top: 0;
     left: 0;
@@ -55,6 +56,17 @@ body.list #device_list_menu {
     bottom: 0;
     left: 0;
     z-index: 4;
+}
+
+body.stream #device_list_menu {
+    background: linear-gradient(180deg, rgb(var(--console-panel) / 0.98), rgb(var(--console-muted) / 0.9));
+    backdrop-filter: blur(0.25rem);
+    box-shadow: 12px -12px 34px rgb(0 0 0 / 0.24), inset 0 1px 0 rgb(255 255 255 / 0.05);
+}
+
+body.stream #device_list_menu:hover {
+    border-color: rgb(var(--console-accent) / 0.7);
+    background-color: rgb(var(--console-accent) / 0.1);
 }
 
 #devices .device-list button {
@@ -111,9 +123,10 @@ body.list #device_list_menu {
 }
 
 #devices .device-state {
-    @apply border border-console-danger/60 bg-console-danger;
-    border-radius: 25px;
-    box-shadow: 0 0 0 4px rgb(var(--console-danger) / 0.12), 0 0 18px rgb(var(--console-danger) / 0.35);
+    flex: none;
+    border: 1px solid rgb(var(--console-danger));
+    border-radius: 50%;
+    background-color: rgb(var(--console-danger));
     font-size: 80%;
     margin-left: 6px;
     width: 1em;
@@ -121,8 +134,8 @@ body.list #device_list_menu {
 }
 
 #devices .device.active .device-state {
-    @apply border-console-ok/60 bg-console-ok;
-    box-shadow: 0 0 0 4px rgb(var(--console-ok) / 0.12), 0 0 18px rgb(var(--console-ok) / 0.35);
+    border-color: rgb(var(--console-ok));
+    background-color: rgb(var(--console-ok));
 }
 
 #devices .device-list {

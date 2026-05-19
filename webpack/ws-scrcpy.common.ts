@@ -95,6 +95,7 @@ export const common = () => {
 };
 
 const front: webpack.Configuration = {
+    name: 'frontend',
     entry: path.join(PROJECT_ROOT, './src/app/index.ts'),
     externals: ['fs'],
     plugins: [
@@ -137,6 +138,7 @@ delete packageJson.dependencies;
 delete packageJson.devDependencies;
 
 const back: webpack.Configuration = {
+    name: 'backend',
     entry: path.join(PROJECT_ROOT, './src/server/index.ts'),
     externals: [nodeExternals()],
     plugins: [

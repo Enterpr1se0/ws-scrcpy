@@ -1,6 +1,8 @@
 .text-area {
     @apply rounded-md border border-console-border/70 bg-console-canvas/80 p-2 font-console text-console-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-console-focus;
     width: 100%;
+    min-height: 5rem;
+    line-height: 1.4;
     resize: vertical;
     box-sizing: border-box;
 }
@@ -9,9 +11,12 @@
     @apply rounded-console border border-console-border/70 bg-console-panel/95 text-console-text shadow-console shadow-insetConsole;
     display: none;
     position: absolute;
+    top: 0;
+    left: 0;
     z-index: 2;
     padding: .714rem;
-    backdrop-filter: blur(0.3rem);
+    background: linear-gradient(180deg, rgb(var(--console-panel) / 0.97), rgb(var(--console-muted) / 0.88));
+    backdrop-filter: blur(0.35rem);
 }
 
 .text-with-shadow, .more-box label {
@@ -31,14 +36,47 @@
 
 .more-box input {
     @apply rounded-md border border-console-border/70 bg-console-canvas/80 px-2 py-1 font-console text-console-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-console-focus;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.more-box input::placeholder,
+.text-area::placeholder {
+    color: rgb(var(--console-subdued) / 0.72);
 }
 
 .more-box input[type=checkbox] {
+    width: auto;
     accent-color: rgb(var(--console-accent));
 }
 
 .more-box p {
     @apply my-2;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgb(var(--console-border) / 0.34);
+}
+
+.more-box > p:first-child {
+    margin-top: 0;
+    padding-bottom: 0.65rem;
+    letter-spacing: 0.04em;
+    color: rgb(var(--console-text));
+}
+
+.more-box > p:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.more-box > p:last-child button {
+    border-color: rgb(var(--console-danger) / 0.5);
+    color: rgb(var(--console-danger));
+}
+
+.more-box > p:last-child button:hover {
+    border-color: rgb(var(--console-danger) / 0.85);
+    background-color: rgb(var(--console-danger) / 0.1);
 }
 
 .more-box .box > div {
@@ -57,6 +95,11 @@
     margin-bottom: 0.5rem;
 }
 
+.more-box .flex-center {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
 .spoiler > input ~ .box {
     display: none;
 }
@@ -72,6 +115,12 @@
 .spoiler > label::before {
     content: '►';
     margin-right: 5px;
+    color: rgb(var(--console-accent));
+}
+
+.spoiler > input:checked ~ label {
+    border-color: rgb(var(--console-accent) / 0.7);
+    background-color: rgb(var(--console-accent) / 0.12);
     color: rgb(var(--console-accent));
 }
 
