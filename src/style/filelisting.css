@@ -1,4 +1,5 @@
 body.file-listing {
+    @apply bg-console-canvas text-console-text;
     display: block;
     position: absolute;
     width: 100%;
@@ -7,20 +8,20 @@ body.file-listing {
 }
 
 .file-listing h1 {
-    border-bottom: 1px solid var(--button-border-color);
+    @apply border-b border-console-border/70 font-console text-xl font-semibold tracking-wide text-console-text;
     margin-bottom: 10px;
     padding-bottom: 10px;
     white-space: nowrap;
 }
 
 .file-listing tr:hover {
-    background-color: var(--controls-bg-color);
+    background-color: rgb(var(--console-muted) / 0.8);
 }
 
 .file-listing .quick-link-box {
+    @apply rounded-console border border-console-border/60 bg-console-panel/90 px-3 py-2 shadow-insetConsole;
     display: inline-block;
     margin-bottom: 10px;
-    padding-bottom: 10px;
 }
 
 .file-listing .quick-link-box.hidden {
@@ -28,6 +29,7 @@ body.file-listing {
 }
 
 .file-listing a.icon {
+    @apply rounded-md px-2 py-1 text-console-accent transition-colors hover:bg-console-muted/70;
     -webkit-padding-start: 1.5em;
     -moz-padding-start: 1.5em;
     text-decoration: none;
@@ -35,7 +37,7 @@ body.file-listing {
 }
 
 .file-listing a.icon:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 .file-listing a.link {
@@ -57,7 +59,28 @@ body.file-listing {
     color: var(--text-color);
 }
 
+.file-listing table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Cascadia Mono', Consolas, monospace;
+}
+
+.file-listing th {
+    @apply border-b border-console-border/70 px-3 py-2 text-left text-xs uppercase tracking-[0.16em] text-console-subdued;
+}
+
+.file-listing td {
+    @apply border-b border-console-border/30 px-3 py-2 text-console-text;
+}
+
+.file-listing td:nth-child(2),
+.file-listing td:nth-child(3) {
+    @apply font-console text-sm text-console-subdued;
+    white-space: nowrap;
+}
+
 .file-listing .listing {
+    @apply rounded-console border border-console-border/60 bg-console-panel/90 p-4 shadow-insetConsole;
     margin: 8px;
 }
 
@@ -69,13 +92,14 @@ body.file-listing {
     right: 0;
     display: flex;
     z-index: 1000;
-    background-color: var(--controls-bg-color);
+    background-color: rgb(var(--console-panel) / 0.82);
+    backdrop-filter: blur(0.3rem);
 }
 
 .file-listing .foreground-message {
+    @apply font-console text-console-subdued;
     flex: auto;
     font-size: 30px;
-    color: #999;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -84,25 +108,38 @@ body.file-listing {
 }
 
 .file-listing .foreground-message.drop-target-message {
-    border: 4px dashed #ddd;
+    @apply rounded-console bg-console-canvas/40;
+    border: 4px dashed rgb(var(--console-accent) / 0.45);
+    box-shadow: inset 0 0 40px rgb(var(--console-accent) / 0.08);
 }
 
 .file-listing .entry-name {
+    @apply font-console;
     position: relative;
+}
+
+.file-listing .entry-name > a {
+    position: relative;
+    z-index: 1;
+}
+
+.file-listing tr {
+    transition: background-color 120ms ease-out;
 }
 
 .file-listing .background-progress {
     position: absolute;
     left: 0;
     top: 0;
-    background-color: var(--progress-background-color);
+    background: linear-gradient(90deg, rgb(var(--console-accent) / 0.22), rgb(var(--console-accent) / 0.08));
     height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
     border-spacing: 0;
+    border-radius: 0.25rem;
 }
 
 .file-listing .background-progress.error {
-    background-color: var(--progress-background-error-color);
+    background: linear-gradient(90deg, rgb(var(--console-danger) / 0.24), rgb(var(--console-danger) / 0.1));
 }

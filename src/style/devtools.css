@@ -1,14 +1,17 @@
 
 body.devtools {
-    font-family: Ubuntu, Arial, sans-serif;
+    @apply bg-console-canvas text-console-text;
+    font-family: 'Aptos', 'Segoe UI', sans-serif;
     font-size: 13px;
 }
 
 body.devtools .device {
+    @apply m-4 rounded-console border border-console-border/60 bg-console-panel/90 shadow-insetConsole;
     padding: 20px;
 }
 
 body.devtools .device-header {
+    @apply border-b border-console-border/50 pb-2;
     -webkit-box-align: baseline;
     -webkit-box-orient: horizontal;
     display: -webkit-box;
@@ -17,16 +20,18 @@ body.devtools .device-header {
 }
 
 body.devtools .device-name {
+    @apply font-console font-semibold tracking-wide text-console-text;
     font-size: 150%;
 }
 
 body.devtools .device-serial {
-    color: var(--url-color);
+    @apply rounded-full border border-console-border/60 bg-console-muted/70 px-2 py-0.5 font-console text-console-subdued;
     font-size: 80%;
     margin-left: 6px;
 }
 
 body.devtools .browser-header {
+    @apply border-t border-console-border/50 text-console-subdued;
     align-items: center;
     display: flex;
     flex-flow: row wrap;
@@ -35,8 +40,8 @@ body.devtools .browser-header {
 }
 
 body.devtools .browser-header > .browser-name {
+    @apply font-console font-semibold tracking-wide text-console-text;
     font-size: 110%;
-    font-weight: bold;
 }
 
 body.devtools div.list {
@@ -44,7 +49,9 @@ body.devtools div.list {
 }
 
 body.devtools div.list > .row {
-    padding: 6px 0;
+    @apply rounded-md border border-transparent px-2 transition-colors hover:border-console-border/60 hover:bg-console-muted/55;
+    padding-top: 6px;
+    padding-bottom: 6px;
     position: relative;
 }
 
@@ -72,10 +79,11 @@ body.devtools .subrow {
 }
 
 body.devtools .subrow > div {
+    @apply text-console-subdued;
     margin-right: 0.5em;
 }
 
-.body.devtools url {
+body.devtools .url {
     color: var(--url-color);
     max-width: 200px;
     text-overflow: ellipsis;
@@ -84,13 +92,13 @@ body.devtools .subrow > div {
 }
 
 body.devtools .action {
-    color: var(--link-color);
+    @apply rounded-md px-2 py-1 text-console-accent transition-colors hover:bg-console-muted/70;
     cursor: pointer;
     margin-right: 15px;
 }
 
 body.devtools .action.disabled {
-    color: var(--url-color);
+    @apply text-console-subdued opacity-60;
     cursor: not-allowed;
 }
 
@@ -107,17 +115,14 @@ body.devtools .browser-header .action {
 }
 
 body.devtools .open > input {
-    border: 1px solid #aaa;
-    height: 17px;
-    line-height: 17px;
+    @apply rounded-md border border-console-border/70 bg-console-canvas/70 px-2 font-console text-console-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-console-focus;
+    height: 1.65rem;
+    line-height: 1.65rem;
     margin-left: 20px;
-    padding: 0 2px;
 }
 
 body.devtools .tooltip {
+    @apply rounded-md border border-console-border/70 bg-console-text px-2 py-1 text-console-canvas shadow-console;
     z-index: 1;
     position: absolute;
-    padding: 2px;
-    color: var(--controls-bg-color);
-    background-color: var(--text-color);
 }

@@ -22,15 +22,22 @@ body.list {
 }
 
 #devices {
-    padding: 20px 0;
+    padding: 1.25rem;
     width: 100%;
     height: calc(100% - 40px);
     overflow-y: auto;
+    box-sizing: border-box;
+    background: radial-gradient(circle at top right, rgb(var(--console-accent) / 0.1), transparent 22%),
+        var(--main-bg-color);
 }
 
 body.stream #devices {
-    background-color: var(--device-list-default-color);
-    opacity: .8;
+    background: radial-gradient(circle at top left, rgb(var(--console-accent) / 0.1), transparent 24%),
+        rgb(var(--console-panel) / 0.92);
+    border-right: 1px solid rgb(var(--console-border) / 0.7);
+    box-shadow: 18px 0 60px rgb(0 0 0 / 0.24);
+    backdrop-filter: blur(0.25rem);
+    opacity: .96;
     position: absolute;
     top: 0;
     left: 0;
@@ -42,6 +49,7 @@ body.list #device_list_menu {
 }
 
 #device_list_menu {
+    @apply rounded-tr-console border border-l-0 border-b-0 border-console-border/70 bg-console-panel/95 px-3 py-2 font-console text-xs uppercase tracking-[0.16em] text-console-subdued shadow-console transition-colors hover:text-console-accent;
     display: block;
     position: absolute;
     bottom: 0;
@@ -52,17 +60,21 @@ body.list #device_list_menu {
 #devices .device-list button {
     font-size: var(--font-size);
     color: var(--button-text-color);
+    cursor: default;
 }
 
 #devices .device-list div.device:nth-child(2n+1){
-    background-color: var(--device-list-default-color);
+    background-color: rgb(var(--console-panel) / 0.9);
 }
 
 #devices .device-list div.device:nth-child(2n){
-    background-color: var(--device-list-stripe-color);
+    background-color: rgb(var(--console-muted) / 0.72);
 }
 
 #devices .device-header {
+    @apply items-center gap-2 border-b border-console-border/50 pb-2;
+    display: flex;
+    flex-wrap: wrap;
     padding: 2px 0;
 }
 
@@ -71,6 +83,7 @@ body.list #device_list_menu {
 }
 
 #devices .device-name {
+    @apply font-semibold tracking-wide text-console-text;
     font-size: 120%;
 }
 
@@ -79,12 +92,13 @@ body.list #device_list_menu {
 }
 
 #devices .device-serial {
-    color: var(--url-color);
+    @apply rounded-full border border-console-border/60 bg-console-muted/70 px-2 py-0.5 font-console text-console-subdued;
     font-size: 80%;
     margin-left: 6px;
 }
 
 #devices .device-version {
+    @apply font-console text-console-subdued;
     font-size: 100%;
     margin-left: 6px;
     align-items: baseline;
@@ -97,8 +111,9 @@ body.list #device_list_menu {
 }
 
 #devices .device-state {
+    @apply border border-console-danger/60 bg-console-danger;
     border-radius: 25px;
-    background-color: red;
+    box-shadow: 0 0 0 4px rgb(var(--console-danger) / 0.12), 0 0 18px rgb(var(--console-danger) / 0.35);
     font-size: 80%;
     margin-left: 6px;
     width: 1em;
@@ -106,7 +121,8 @@ body.list #device_list_menu {
 }
 
 #devices .device.active .device-state {
-    background-color: green;
+    @apply border-console-ok/60 bg-console-ok;
+    box-shadow: 0 0 0 4px rgb(var(--console-ok) / 0.12), 0 0 18px rgb(var(--console-ok) / 0.35);
 }
 
 #devices .device-list {
@@ -119,31 +135,34 @@ body.list #device_list_menu {
 #devices .device-list {
     border-spacing: 0;
     border-collapse: collapse;
-    font-family: monospace;
+    font-family: 'Cascadia Mono', Consolas, monospace;
     font-size: var(--font-size);
 }
 
 #devices .device-list div.device {
-    padding: 5px 20px 5px;
+    @apply rounded-console border border-console-border/60 shadow-insetConsole transition-colors;
+    margin-bottom: 0.75rem;
+    padding: 0.85rem 1rem;
 }
 
 #devices .device-list div.device:hover {
-    background-color: var(--device-list-hover-color)
+    background-color: rgb(var(--console-muted) / 0.95);
+    border-color: rgb(var(--console-accent) / 0.45);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 12px 32px rgb(0 0 0 / 0.18);
 }
 
 #devices .device-list div.device select {
-    color: var(--text-color);
-    background-color: var(--main-bg-color);
+    @apply rounded-md border border-console-border/70 bg-console-canvas/70 px-2 py-1 font-console text-console-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-console-focus;
     margin-left: 0;
-    border: none;
 }
 
 #devices .device-list div.device:hover select {
-    background-color: var(--device-list-hover-color);;
+    background-color: rgb(var(--console-canvas) / 0.82);
 }
 
 #devices .device-list div.desc-block {
-    margin: .3em;
+    @apply items-center rounded-md border border-transparent bg-console-canvas/35 px-2 py-1 text-console-subdued;
+    margin: .35em;
     display: inline-flex;
 }
 
@@ -154,14 +173,49 @@ body.list #device_list_menu {
 #devices .device-list div.desc-block.stream,
 #devices .device-list div.desc-block.server_pid,
 #devices .device-list div.desc-block.net_interface {
-    border: 1px solid var(--device-border-color);
-    border-radius: .3em;
+    @apply border-console-border/70 bg-console-panel/80;
+    border-radius: .45em;
     overflow: hidden;
     white-space: nowrap;
 }
 
 #devices .device-list div.device div.desc-block.stream button.action-button {
-    color: var(--button-text-color);
+    color: rgb(var(--console-accent));
+}
+
+#devices .device-list div.desc-block a.link-stream,
+#devices .device-list div.desc-block a.link-shell {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgb(var(--console-border) / 0.72);
+    border-radius: 0.375rem;
+    background-color: rgb(var(--console-muted) / 0.58);
+    padding: 0.25rem 0.65rem;
+    color: rgb(var(--console-accent));
+    font-family: 'Cascadia Mono', Consolas, monospace;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    text-decoration: none;
+    transition: border-color 120ms ease-out, background-color 120ms ease-out, color 120ms ease-out;
+}
+
+#devices .device-list div.desc-block a.link-stream:visited,
+#devices .device-list div.desc-block a.link-shell:visited {
+    color: rgb(var(--console-accent));
+}
+
+#devices .device-list div.desc-block a.link-stream:hover,
+#devices .device-list div.desc-block a.link-shell:hover {
+    border-color: rgb(var(--console-accent) / 0.8);
+    background-color: rgb(var(--console-accent) / 0.12);
+    color: rgb(var(--console-accent));
+    text-decoration: none;
+}
+
+#devices .device-list div.desc-block a.link-stream:focus-visible,
+#devices .device-list div.desc-block a.link-shell:focus-visible {
+    outline: 2px solid rgb(var(--console-focus));
+    outline-offset: 2px;
 }
 
 #devices .device-list div.desc-block button {
@@ -180,6 +234,7 @@ body.list #device_list_menu {
 #devices .device-list div.desc-block button > svg {
     width: var(--font-size);
     height: var(--font-size);
+    margin-right: 0.2rem;
 }
 
 #devices .device-list div.desc-block button > svg > path {
@@ -196,6 +251,7 @@ body.list #device_list_menu {
 
 #devices .device-list .device.not-active {
     color: var(--text-color-light);
+    opacity: 0.78;
 }
 
 #devices .device-list .device.not-active a {
@@ -207,7 +263,7 @@ body.list #device_list_menu {
 }
 
 #devices .device-list div.device div.desc-block .action-button {
-    border: none;
+    @apply rounded-md border border-transparent px-2 py-1 text-console-text transition-colors hover:border-console-accent/70 hover:text-console-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-console-focus;
     background-color: rgba(0, 0, 0, 0);
     color: inherit;
 }
@@ -217,7 +273,12 @@ body.list #device_list_menu {
 }
 
 #devices .device-list div.device div.desc-block .action-button.active {
+    @apply bg-console-muted/45;
     cursor: pointer;
+}
+
+#devices .device-list div.device div.desc-block .action-button.active:hover {
+    background-color: rgb(var(--console-accent) / 0.1);
 }
 
 #devices .device-list .device.active div.desc-block .action-button:hover {
@@ -229,7 +290,5 @@ body.list #device_list_menu {
 }
 
 #devices .tracker-name {
-    padding: 5px 20px 5px;
-    font-size: larger;
-    font-weight: bolder;
+    @apply mb-3 rounded-console border border-console-border/60 bg-console-muted/70 px-4 py-3 font-console text-xs font-semibold uppercase tracking-[0.2em] text-console-subdued shadow-insetConsole;
 }

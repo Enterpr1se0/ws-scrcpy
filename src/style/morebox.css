@@ -1,19 +1,60 @@
 .text-area {
+    @apply rounded-md border border-console-border/70 bg-console-canvas/80 p-2 font-console text-console-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-console-focus;
     width: 100%;
     resize: vertical;
+    box-sizing: border-box;
 }
 
 .more-box {
+    @apply rounded-console border border-console-border/70 bg-console-panel/95 text-console-text shadow-console shadow-insetConsole;
     display: none;
     position: absolute;
-    background-color: var(--controls-bg-color);
     z-index: 2;
-    padding: 0 .714rem .714rem .714rem;
+    padding: .714rem;
+    backdrop-filter: blur(0.3rem);
 }
 
 .text-with-shadow, .more-box label {
-    color: var(--text-color);
-    text-shadow: var(--text-shadow-color) 0 0 .357rem;
+    @apply font-console text-console-subdued;
+    text-shadow: rgb(var(--console-canvas) / 0.9) 0 0 .357rem;
+}
+
+.more-box button {
+    @apply rounded-md border border-console-border/80 bg-console-muted/80 px-2 py-1 font-console text-sm text-console-text transition-colors hover:border-console-accent/80 hover:text-console-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-console-focus;
+    margin-right: 0.35rem;
+    margin-bottom: 0.35rem;
+}
+
+.more-box button:active {
+    transform: translateY(1px);
+}
+
+.more-box input {
+    @apply rounded-md border border-console-border/70 bg-console-canvas/80 px-2 py-1 font-console text-console-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-console-focus;
+}
+
+.more-box input[type=checkbox] {
+    accent-color: rgb(var(--console-accent));
+}
+
+.more-box p {
+    @apply my-2;
+}
+
+.more-box .box > div {
+    display: grid;
+    grid-template-columns: minmax(6rem, 0.8fr) 1fr;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.more-box .box > div > label {
+    @apply text-xs uppercase tracking-[0.12em];
+}
+
+.more-box .box > button {
+    margin-bottom: 0.5rem;
 }
 
 .spoiler > input ~ .box {
@@ -24,9 +65,14 @@
     display: block;
 }
 
+.spoiler > label {
+    @apply inline-flex cursor-pointer items-center rounded-md border border-console-border/50 bg-console-muted/50 px-2 py-1 transition-colors hover:border-console-accent/60 hover:text-console-accent;
+}
+
 .spoiler > label::before {
     content: '►';
     margin-right: 5px;
+    color: rgb(var(--console-accent));
 }
 
 .spoiler > input:checked ~ label::before {
@@ -34,6 +80,7 @@
 }
 
 .spoiler > input:checked ~ div {
+    @apply mt-2 rounded-md border border-console-border/60 bg-console-canvas/50;
     display: block;
     padding: 10px;
 }

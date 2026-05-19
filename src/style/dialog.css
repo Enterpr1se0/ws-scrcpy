@@ -13,17 +13,18 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.75);
+    background: radial-gradient(circle at top left, rgb(var(--console-accent) / 0.14), transparent 28%),
+        rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(0.35rem);
     z-index: 3;
 }
 
 .dialog-container {
-    font-family: monospace;
+    @apply rounded-console border border-console-border/70 bg-console-panel/95 text-console-text shadow-console shadow-insetConsole;
+    font-family: 'Cascadia Mono', Consolas, monospace;
     width: 75%;
-    max-width: 30rem;
+    max-width: 32rem;
     min-width: 20rem;
-    background-color: var(--main-bg-color);
-    /*border-radius: 0.3rem;*/
     overflow: hidden;
 }
 
@@ -33,22 +34,79 @@
 }
 
 .dialog-container button, .dialog-container select, .dialog-container input {
-    font-family: monospace;
+    font-family: 'Cascadia Mono', Consolas, monospace;
 }
 
 .dialog-container button {
     font-size: var(--font-size);
 }
 
+.dialog-container select,
+.dialog-container input:not([type=range]) {
+    @apply rounded-md border border-console-border/70 bg-console-canvas/70 px-2 py-1 text-console-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-console-focus;
+    min-height: 2rem;
+}
+
 .dialog-container select {
     text-overflow: ellipsis;
+}
+
+.dialog-container input[type=checkbox] {
+    accent-color: rgb(var(--console-accent));
+    min-height: auto;
+}
+
+.dialog-container input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 1.75rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    accent-color: rgb(var(--console-accent));
+}
+
+.dialog-container input[type=range]::-webkit-slider-runnable-track {
+    height: 0.35rem;
+    border: 1px solid rgb(var(--console-border) / 0.7);
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgb(var(--console-accent) / 0.36), rgb(var(--console-muted) / 0.86));
+}
+
+.dialog-container input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 1rem;
+    height: 1rem;
+    margin-top: -0.36rem;
+    border: 1px solid rgb(var(--console-accent) / 0.85);
+    border-radius: 999px;
+    background: rgb(var(--console-panel));
+    box-shadow: 0 0 0 4px rgb(var(--console-accent) / 0.16);
+}
+
+.dialog-container input[type=range]::-moz-range-track {
+    height: 0.35rem;
+    border: 1px solid rgb(var(--console-border) / 0.7);
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgb(var(--console-accent) / 0.36), rgb(var(--console-muted) / 0.86));
+}
+
+.dialog-container input[type=range]::-moz-range-thumb {
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid rgb(var(--console-accent) / 0.85);
+    border-radius: 999px;
+    background: rgb(var(--console-panel));
+    box-shadow: 0 0 0 4px rgb(var(--console-accent) / 0.16);
 }
 
 .dialog-block {
 }
 
 .dialog-header {
-    background-color: var(--header-bg-color);
+    @apply border-b border-console-border/70 bg-console-muted/80;
     height: var(--header-height);
     overflow: hidden;
     display: flex;
@@ -58,13 +116,14 @@
 }
 
 .dialog-header span.dialog-title {
+    @apply text-sm font-semibold tracking-wide text-console-text;
     display: inline-block;
     padding: 0 0.5rem;
 }
 
 .dialog-body {
-    padding: var(--block-top-padding) 0.5rem var(--block-bottom-padding);
-    background-color: var(--control-buttons-bg-color);
+    @apply bg-console-panel/95;
+    padding: var(--block-top-padding) 0.75rem var(--block-bottom-padding);
     overflow: auto;
 }
 
@@ -84,50 +143,69 @@
 }
 
 .dialog-footer {
-    /*display: flex;*/
-    /*flex-direction: row-reverse;*/
-    padding: var(--block-top-padding) 0.5rem var(--block-bottom-padding);
-    background-color: var(--stream-bg-color);
+    @apply border-t border-console-border/70 bg-console-muted/80;
+    padding: var(--block-top-padding) 0.75rem var(--block-bottom-padding);
     height: var(--footer-height);
     overflow: hidden;
 }
 
 .dialog-footer span.subtitle {
+    @apply text-xs text-console-subdued;
     font-weight: lighter;
     line-height: var(--footer-height);
     float: left;
 }
 
 .dialog-footer button {
-    padding: var(--button-top-padding) 0.5rem var(--button-bottom-padding);
+    @apply rounded-md border border-console-border/80 bg-console-muted/80 px-3 text-sm text-console-text transition-colors hover:border-console-accent/80 hover:text-console-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-console-focus;
+    padding-top: var(--button-top-padding);
+    padding-bottom: var(--button-bottom-padding);
     margin: 0 0 0 0.5rem;
-    border-radius: 0.3rem;
-    /*background-color: var(--main-bg-color);*/
-    color: var(--button-text-color);
-    border: 1px solid var(--button-border-color);
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0);
     height: var(--footer-height);
     float: right;
 }
 
 .dialog-footer button:disabled {
+    @apply opacity-50;
     cursor: not-allowed;
     color: var(--text-color-light);
 }
 
 .controls .label {
+    @apply text-xs font-semibold uppercase tracking-[0.14em] text-console-subdued;
     grid-column: labels;
 }
 
 .controls .input {
     grid-column: controls;
     box-sizing: border-box;
+    width: 100%;
     margin: 0;
     /*height: 2.75ex;*/
 }
 
+.controls input[type=checkbox].input {
+    width: auto;
+    justify-self: start;
+}
+
+.controls label.control-button.input {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.143rem;
+    min-height: 2.143rem;
+    justify-self: start;
+}
+
+.controls label.control-button.input > svg {
+    display: block;
+    flex: none;
+}
+
 .controls .button {
+    @apply rounded-md border border-console-border/80 bg-console-muted/80 px-3 py-1.5 text-sm text-console-text transition-colors hover:border-console-accent/80 hover:text-console-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-console-focus;
     grid-column: controls;
 }
 
@@ -135,6 +213,6 @@
     display: grid;
     grid-template-columns: [labels] 35% [controls] 65%;
     padding: 1rem;
-    grid-gap: 0.2rem;
+    grid-gap: 0.5rem;
     align-items: center;
 }
