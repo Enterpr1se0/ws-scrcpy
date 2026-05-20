@@ -197,7 +197,7 @@ export class WebCodecsPlayer extends BaseCanvasBasedPlayer {
     }
 
     public getFitToScreenStatus(): boolean {
-        return false;
+        return WebCodecsPlayer.getFitToScreenStatus(this.udid, this.displayInfo);
     }
 
     public getPreferredVideoSetting(): VideoSettings {
