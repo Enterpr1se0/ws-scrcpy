@@ -19,13 +19,6 @@ export class Config {
         runGoogTracker = true;
         announceGoogTracker = true;
         /// #endif
-
-        let runApplTracker = false;
-        let announceApplTracker = false;
-        /// #if INCLUDE_APPL
-        runApplTracker = true;
-        announceApplTracker = true;
-        /// #endif
         const server: ServerItem[] = [
             {
                 secure: false,
@@ -34,9 +27,7 @@ export class Config {
         ];
         const defaultConfig: Required<Configuration> = {
             runGoogTracker,
-            runApplTracker,
             announceGoogTracker,
-            announceApplTracker,
             server,
             remoteHostList: [],
         };
@@ -140,14 +131,6 @@ export class Config {
 
     public get announceLocalGoogTracker(): boolean {
         return this.fullConfig.runGoogTracker;
-    }
-
-    public get runLocalApplTracker(): boolean {
-        return this.fullConfig.runApplTracker;
-    }
-
-    public get announceLocalApplTracker(): boolean {
-        return this.fullConfig.runApplTracker;
     }
 
     public get servers(): ServerItem[] {

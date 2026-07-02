@@ -1,19 +1,13 @@
-import { WDAMethod } from './WDAMethod';
-
 export class ControlCenterCommand {
     public static KILL_SERVER = 'kill_server';
     public static START_SERVER = 'start_server';
     public static UPDATE_INTERFACES = 'update_interfaces';
     public static CONFIGURE_STREAM = 'configure_stream';
-    public static RUN_WDA = 'run-wda';
-    public static REQUEST_WDA = 'request-wda';
 
     private id = -1;
     private type = '';
     private pid = 0;
     private udid = '';
-    private method = '';
-    private args?: any;
     private data?: any;
 
     public static fromJSON(json: string): ControlCenterCommand {
@@ -36,17 +30,9 @@ export class ControlCenterCommand {
                 }
                 command.pid = data.pid;
                 return command;
-            case this.REQUEST_WDA:
-                if (typeof data.method !== 'string') {
-                    throw new Error('Invalid "method" value');
-                }
-                command.method = data.method;
-                command.args = data.args;
-                return command;
             case this.START_SERVER:
             case this.UPDATE_INTERFACES:
             case this.CONFIGURE_STREAM:
-            case this.RUN_WDA:
                 return command;
             default:
                 throw new Error(`Unknown command "${body.command}"`);
@@ -65,13 +51,7 @@ export class ControlCenterCommand {
     public getId(): number {
         return this.id;
     }
-    public getMethod(): WDAMethod | string {
-        return this.method;
-    }
     public getData(): any {
         return this.data;
-    }
-    public getArgs(): any {
-        return this.args;
     }
 }

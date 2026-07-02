@@ -3,7 +3,6 @@ import { Message } from '../../types/Message';
 import { MessageError, MessageHosts, MessageType } from '../../common/HostTrackerMessage';
 import { ACTION } from '../../common/Action';
 import { DeviceTracker as GoogDeviceTracker } from '../googDevice/client/DeviceTracker';
-import { DeviceTracker as ApplDeviceTracker } from '../applDevice/client/DeviceTracker';
 import { ParamsBase } from '../../types/ParamsBase';
 import { HostItem } from '../../types/Configuration';
 import { ChannelCode } from '../../common/ChannelCode';
@@ -30,7 +29,7 @@ export class HostTracker extends ManagerClient<ParamsBase, HostTrackerEvents> {
         return this.instance;
     }
 
-    private trackers: Array<GoogDeviceTracker | ApplDeviceTracker> = [];
+    private trackers: GoogDeviceTracker[] = [];
 
     constructor() {
         super({ action: ACTION.LIST_HOSTS });
@@ -70,7 +69,7 @@ export class HostTracker extends ManagerClient<ParamsBase, HostTrackerEvents> {
                         const secure = location.protocol === 'https:';
                         const port = location.port ? parseInt(location.port, 10) : secure ? 443 : 80;
                         const { hostname, pathname } = location;
-                        if (type !== 'android' && type !== 'ios') {
+                        if (type !== 'android') {
                             console.warn(TAG, `Unsupported host type: "${type}"`);
                             return;
                         }
@@ -92,9 +91,6 @@ export class HostTracker extends ManagerClient<ParamsBase, HostTrackerEvents> {
         switch (hostItem.type) {
             case 'android':
                 this.trackers.push(GoogDeviceTracker.start(hostItem));
-                break;
-            case 'ios':
-                this.trackers.push(ApplDeviceTracker.start(hostItem));
                 break;
             default:
                 console.warn(TAG, `Unsupported host type: "${hostItem.type}"`);

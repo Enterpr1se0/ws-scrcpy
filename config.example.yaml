@@ -1,10 +1,8 @@
 # Run configuration example. See full config file spec in src/types/Configuration.d.ts
 
 # Device trackers
-## track android devices (default: true, if was INCLUDE_GOOG enabled in build config)
+## track android devices (default: true, if INCLUDE_GOOG was enabled in build config)
 runGoogTracker: false
-## track iOS devices (default: true, if was INCLUDE_APPL enabled in build config)
-runApplTracker: false;
 
 # HTTP[s] servers configuration
 server:
@@ -22,19 +20,7 @@ server:
 # Announce remote device trackers. The server doesn't check their availability.
 remoteHostList:
   - useProxy: true   # optional, default: false
-    type: android    # required, "android" | "ios" | ["android", "ios"]
+    type: android    # required
     secure: true     # required, false for HTTP, true for HTTPS
     hostname: second-mobile-stand.example.com
-    port: 8443
-  - useProxy: true
-    type: ios
-    secure: true
-    hostname: second-mobile-stand.example.com
-    port: 8443
-  - useProxy: true
-    type:           # short variant
-      - ios
-      - android
-    secure: true
-    hostname: third-mobile-stand.example.com
     port: 8443

@@ -33,46 +33,6 @@ window.onload = async function (): Promise<void> {
         return;
     }
 
-    /// #if INCLUDE_APPL
-    {
-        const { DeviceTracker } = await import('./applDevice/client/DeviceTracker');
-
-        /// #if USE_QVH_SERVER
-        const { StreamClientQVHack } = await import('./applDevice/client/StreamClientQVHack');
-
-        DeviceTracker.registerTool(StreamClientQVHack);
-
-        /// #if USE_WEBCODECS
-        const { WebCodecsPlayer } = await import('./player/WebCodecsPlayer');
-        StreamClientQVHack.registerPlayer(WebCodecsPlayer);
-        /// #endif
-
-        /// #if USE_H264_CONVERTER
-        const { MsePlayerForQVHack } = await import('./player/MsePlayerForQVHack');
-        StreamClientQVHack.registerPlayer(MsePlayerForQVHack);
-        /// #endif
-
-        if (action === StreamClientQVHack.ACTION && typeof parsedQuery.get('udid') === 'string') {
-            StreamClientQVHack.start(StreamClientQVHack.parseParameters(parsedQuery));
-            return;
-        }
-        /// #endif
-
-        /// #if USE_WDA_MJPEG_SERVER
-        const { StreamClientMJPEG } = await import('./applDevice/client/StreamClientMJPEG');
-        DeviceTracker.registerTool(StreamClientMJPEG);
-
-        const { MjpegPlayer } = await import('./player/MjpegPlayer');
-        StreamClientMJPEG.registerPlayer(MjpegPlayer);
-
-        if (action === StreamClientMJPEG.ACTION && typeof parsedQuery.get('udid') === 'string') {
-            StreamClientMJPEG.start(StreamClientMJPEG.parseParameters(parsedQuery));
-            return;
-        }
-        /// #endif
-    }
-    /// #endif
-
     const tools: Tool[] = [];
 
     /// #if INCLUDE_ADB_SHELL

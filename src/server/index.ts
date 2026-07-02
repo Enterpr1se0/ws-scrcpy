@@ -58,37 +58,6 @@ async function loadGoogModules() {
 loadPlatformModulesPromises.push(loadGoogModules());
 /// #endif
 
-/// #if INCLUDE_APPL
-async function loadApplModules() {
-    const { ControlCenter } = await import('./appl-device/services/ControlCenter');
-    const { DeviceTracker } = await import('./appl-device/mw/DeviceTracker');
-    const { WebDriverAgentProxy } = await import('./appl-device/mw/WebDriverAgentProxy');
-
-    // Hack to reduce log-level of appium libs
-    const { default: npmlog } = await import('npmlog');
-    npmlog.level = 'warn';
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global as any)._global_npmlog = npmlog;
-
-    if (config.runLocalApplTracker) {
-        mw2List.push(DeviceTracker);
-    }
-
-    if (config.announceLocalApplTracker) {
-        HostTracker.registerLocalTracker(DeviceTracker);
-    }
-
-    servicesToStart.push(ControlCenter);
-
-    /// #if USE_QVH_SERVER
-    const { QVHStreamProxy } = await import('./appl-device/mw/QVHStreamProxy');
-    mw2List.push(QVHStreamProxy);
-    /// #endif
-    mw2List.push(WebDriverAgentProxy);
-}
-loadPlatformModulesPromises.push(loadApplModules());
-/// #endif
-
 Promise.all(loadPlatformModulesPromises)
     .then(() => {
         return servicesToStart.map((serviceClass: ServiceClass) => {

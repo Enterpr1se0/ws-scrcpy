@@ -154,7 +154,7 @@ export class WebCodecsPlayer extends BaseCanvasBasedPlayer {
             this.addToBuffer(data);
             return;
         } else if (type === NALU.SEI) {
-            // Workaround for lonely SEI from ws-qvh
+            // Workaround for lonely SEI before stream configuration
             if (!this.bufferedSPS || !this.bufferedPPS) {
                 return;
             }

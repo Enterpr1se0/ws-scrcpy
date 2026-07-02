@@ -24,8 +24,6 @@
   "dependencies": {
     "@dead50f7/adbkit": "^2.11.5",
     "express": "^4.22.2",
-    "ios-device-lib": "^0.9.4",
-    "node-mjpeg-proxy": "^0.3.2",
     "node-pty": "^1.1.0",
     "portfinder": "^1.0.38",
     "tslib": "^2.8.1",
@@ -76,8 +74,5 @@
     "xterm": "^4.19.0",
     "xterm-addon-attach": "^0.6.0",
     "xterm-addon-fit": "^0.5.0"
-  },
-  "optionalDependencies": {
-    "appium-xcuitest-driver": "^11.4.2"
   }
 }
