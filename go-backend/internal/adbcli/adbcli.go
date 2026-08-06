@@ -586,18 +586,26 @@ func (p *Provider) scrcpyServerJarPath() (string, error) {
 	if p.scrcpyServerJar != "" {
 		return p.scrcpyServerJar, nil
 	}
+	// Prefer a jar placed next to the executable (release bundle layout),
+	// then fall back to walking up from the working directory (repo layout).
+	var candidates []string
+	if executable, err := os.Executable(); err == nil {
+		candidates = append(candidates, filepath.Join(filepath.Dir(executable), "scrcpy-server.jar"))
+	}
 	workingDir, err := os.Getwd()
 	if err != nil {
 		return "", fmt.Errorf("resolve scrcpy server jar: %w", err)
 	}
 	for dir := workingDir; ; dir = filepath.Dir(dir) {
-		candidate := filepath.Join(dir, scrcpyServerJarRelativePath)
-		if info, err := os.Stat(candidate); err == nil && !info.IsDir() {
-			return candidate, nil
-		}
+		candidates = append(candidates, filepath.Join(dir, scrcpyServerJarRelativePath))
 		parent := filepath.Dir(dir)
 		if parent == dir {
 			break
+		}
+	}
+	for _, candidate := range candidates {
+		if info, err := os.Stat(candidate); err == nil && !info.IsDir() {
+			return candidate, nil
 		}
 	}
 	return "", ErrScrcpyServerUnsupported
