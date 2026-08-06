@@ -1,0 +1,59 @@
+name: build-binaries
+
+on:
+  push:
+    branches:
+      - chore/go-backend-vite-web
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.goos }}/${{ matrix.goarch }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - goos: linux
+            goarch: amd64
+          - goos: linux
+            goarch: arm64
+          - goos: darwin
+            goarch: amd64
+          - goos: darwin
+            goarch: arm64
+          - goos: windows
+            goarch: amd64
+            ext: .exe
+          - goos: windows
+            goarch: arm64
+            ext: .exe
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go-backend/go.mod
+          cache-dependency-path: go-backend/go.sum
+
+      - name: Build
+        working-directory: go-backend
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: "0"
+        run: |
+          mkdir -p dist
+          go build -trimpath -ldflags="-s -w" \
+            -o "dist/ws-scrcpy-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }}" \
+            ./cmd/ws-scrcpy-server
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ws-scrcpy-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: go-backend/dist/*
+          if-no-files-found: error
