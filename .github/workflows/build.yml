@@ -82,12 +82,15 @@ jobs:
         env:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
+          EXT: ${{ matrix.ext }}
           CGO_ENABLED: "0"
         run: |
-          mkdir -p dist
+          dir="dist/ws-scrcpy-$GOOS-$GOARCH"
+          mkdir -p "$dir"
           go build -trimpath -ldflags="-s -w" \
-            -o "dist/ws-scrcpy-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }}" \
+            -o "$dir/ws-scrcpy$EXT" \
             ./cmd/ws-scrcpy-server
+          cp ../vendor/Genymobile/scrcpy/scrcpy-server.jar "$dir/"
 
       - name: Package
         working-directory: go-backend
@@ -95,12 +98,7 @@ jobs:
         env:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
-          EXT: ${{ matrix.ext }}
         run: |
-          dir="dist/ws-scrcpy-$GOOS-$GOARCH"
-          mkdir -p "$dir"
-          cp "dist/ws-scrcpy-$GOOS-$GOARCH$EXT" "$dir/"
-          cp ../vendor/Genymobile/scrcpy/scrcpy-server.jar "$dir/"
           if [ "$GOOS" = "windows" ]; then
             (cd dist && zip -r "ws-scrcpy-$GOOS-$GOARCH.zip" "ws-scrcpy-$GOOS-$GOARCH")
           else
