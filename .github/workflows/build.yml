@@ -5,6 +5,8 @@ on:
     branches:
       - chore/go-backend-vite-web
       - master
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 jobs:
@@ -57,3 +59,29 @@ jobs:
           name: ws-scrcpy-${{ matrix.goos }}-${{ matrix.goarch }}
           path: go-backend/dist/*
           if-no-files-found: error
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p release
+          find artifacts -type f -exec cp {} release/ \;
+          ls -la release/
+          gh release create "$GITHUB_REF_NAME" release/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "ws-scrcpy $GITHUB_REF_NAME" \
+            --generate-notes
