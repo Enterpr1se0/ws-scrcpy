@@ -4,3 +4,5 @@
 /.idea
 /.appium-home
 /logs/
+go-backend/web/public/*
+!go-backend/web/public/.gitkeep

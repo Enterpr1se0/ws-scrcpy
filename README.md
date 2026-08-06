@@ -4,16 +4,10 @@ Web client for [Genymobile/scrcpy][scrcpy] and more.
 
 ## Requirements
 
-Browser must support the following technologies:
-* WebSockets
-* Media Source Extensions and h264 decoding;
-* WebWorkers
-* WebAssembly
-
 Server:
-* Node.js v10+
-* node-gyp ([installation](https://github.com/nodejs/node-gyp#installation))
+* Go 1.22+
 * `adb` executable must be available in the PATH environment variable
+* `vendor/Genymobile/scrcpy/scrcpy-server.jar` (already bundled in the repo)
 
 Device:
 * Android 5.0+ (API 21+)
@@ -24,20 +18,20 @@ to control it using keyboard and mouse.
 
 ## Build and Start
 
-Make sure you have installed [node.js](https://nodejs.org/en/download/),
-[node-gyp](https://github.com/nodejs/node-gyp) and
-[build tools](https://github.com/nodejs/node-gyp#installation)
+The frontend is built with [Vite](https://vitejs.dev/) and embedded into the Go
+binary, so build the frontend first:
 ```shell
-git clone https://github.com/NetrisTV/ws-scrcpy.git
-cd ws-scrcpy
-
-## For stable version find latest tag and switch to it:
-# git tag -l
-# git checkout vX.Y.Z
-
+cd frontend
 npm install
-npm start
+npm run build
+cd ../go-backend
+go build ./cmd/ws-scrcpy-server
+./ws-scrcpy-server
 ```
+
+Prebuilt binaries for linux/darwin/windows (amd64/arm64) are attached to
+[GitHub Releases](https://github.com/Enterpr1se0/ws-scrcpy/releases); place the
+`scrcpy-server.jar` from the release next to the binary before running it.
 
 ## Supported features
 
