@@ -89,11 +89,31 @@ jobs:
             -o "dist/ws-scrcpy-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }}" \
             ./cmd/ws-scrcpy-server
 
+      - name: Package
+        working-directory: go-backend
+        shell: bash
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          EXT: ${{ matrix.ext }}
+        run: |
+          dir="dist/ws-scrcpy-$GOOS-$GOARCH"
+          mkdir -p "$dir"
+          cp "dist/ws-scrcpy-$GOOS-$GOARCH$EXT" "$dir/"
+          cp ../vendor/Genymobile/scrcpy/scrcpy-server.jar "$dir/"
+          if [ "$GOOS" = "windows" ]; then
+            (cd dist && zip -r "ws-scrcpy-$GOOS-$GOARCH.zip" "ws-scrcpy-$GOOS-$GOARCH")
+          else
+            tar -C dist -czf "dist/ws-scrcpy-$GOOS-$GOARCH.tar.gz" "ws-scrcpy-$GOOS-$GOARCH"
+          fi
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: ws-scrcpy-${{ matrix.goos }}-${{ matrix.goarch }}
-          path: go-backend/dist/*
+          path: |
+            go-backend/dist/*.tar.gz
+            go-backend/dist/*.zip
           if-no-files-found: error
 
   release:
@@ -117,11 +137,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          mkdir -p release
-          find artifacts -type f -exec cp {} release/ \;
-          cp vendor/Genymobile/scrcpy/scrcpy-server.jar release/
-          ls -la release/
-          gh release create "$GITHUB_REF_NAME" release/* \
+          ls -la artifacts/
+          gh release create "$GITHUB_REF_NAME" artifacts/* \
             --repo "$GITHUB_REPOSITORY" \
             --title "ws-scrcpy $GITHUB_REF_NAME" \
             --generate-notes
